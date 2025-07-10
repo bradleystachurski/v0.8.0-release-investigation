@@ -1,0 +1,50 @@
+take a look at the log files in this dir
+
+the log files with the v0.7.2 tag in the filename are the baseline. there may be some issues in there like the disco box, but that's not our concern right now. we just want to evaluate if it looks like there's any regressions from the v0.7.2 release to the v0.8.0-beta.2 release. those log files have the appropriate tag. take a look through those files and give me your analysis
+
+---
+
+For subsequent analysis runs, use the following prompt:
+
+Please analyze the fedimint log files in this directory to identify regressions between v0.7.2 (baseline) and v0.8.0-beta.2.
+
+Directory structure:
+- baseline/run-1/ through baseline/run-N/ - Contains v0.7.2 logs from multiple baseline runs
+- test-run-1/ through test-run-N/ - Contains v0.8.0-beta.2 logs from multiple test runs
+
+Each directory contains:
+- docker-logs-fedimint-cli-[version]-[timestamp].log
+- docker-logs-fedimintd-peer0-[version]-[timestamp].log
+
+Please perform the following analysis:
+
+1. **Baseline Analysis** (for each baseline/run-* directory)
+   - Count ERROR/WARN messages in v0.7.2 logs
+   - Note any existing issues (e.g., "disco box" errors)
+   - Record connection duration (first to last timestamp in CLI logs)
+   - Calculate average baseline metrics across all runs
+
+2. **Test Run Analysis** (for each test-run-* directory)
+   - Count ERROR/WARN messages
+   - Track key regression patterns:
+     * DNS resolution failures (*.dns.iroh.link domains)
+     * PKarr protocol errors ("pkarr publish error")
+     * Disco box errors ("failed to open disco box")
+     * Connection failures
+     * Relay server issues
+   - Calculate connection duration
+   - Note if join succeeded or failed
+
+3. **Comparative Analysis**
+   - Compare error counts between baseline and test runs
+   - Identify consistent vs intermittent issues
+   - Calculate performance regression (connection time differences)
+   - Assess reproducibility of issues across test runs
+
+4. **Summary Report**
+   - List all identified regressions with severity
+   - Provide success rate (successful joins / total runs)
+   - Highlight any critical/blocking issues
+   - Include connection duration comparison table
+
+Focus on systematic issues that appear consistently across multiple test runs, as these represent true regressions rather than transient failures.
